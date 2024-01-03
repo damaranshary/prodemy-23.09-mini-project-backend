@@ -1,4 +1,4 @@
-package com.prodemy.miniprojectbackend.dto;
+package com.prodemy.miniprojectbackend.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDto {
+public class ProductRequest {
 	private String title;
 	private String image;
 	private Long price;
