@@ -47,6 +47,22 @@ public class ProductServiceImpl implements ProductService {
         ).collect(Collectors.toList());
     }
 
+    @Override
+    public String addProduct(Product product) {
+        productRepository.save(product);
+        return "sukses";
+    }
+
+    @Override
+    public Product findByTitle(String title) {
+        return productRepository.findByTitle(title);
+    }
+
+    @Override
+    public String updateProduct(Product product) {
+        return null;
+    }
+
     private ProductResponse convertProductToProductResponse(Product product) {
         String category = categoryRepository.findById(product.getCategoryId()).orElseThrow(RuntimeException::new).getName();
 

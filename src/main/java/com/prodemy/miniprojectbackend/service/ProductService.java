@@ -1,5 +1,6 @@
 package com.prodemy.miniprojectbackend.service;
 
+import com.prodemy.miniprojectbackend.model.Product;
 import com.prodemy.miniprojectbackend.model.response.ProductResponse;
 
 import java.util.List;
@@ -13,4 +14,10 @@ public interface ProductService {
     List<ProductResponse> filterProductByCategory(Long categoryId);
 
     List<ProductResponse> filterProductByCategoryAndQuery(Long categoryId, String query);
+
+    String updateProduct(Product product);
+
+    String addProduct(Product product);
+
+    Product findByTitle(String title);
 }
