@@ -3,6 +3,7 @@ package com.prodemy.miniprojectbackend.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +11,14 @@ import com.cloudinary.Cloudinary;
 
 @Configuration
 public class CloudinaryConfig {
-	private final String CLOUD_NAME = "dyfdsuryj";
-    private final String API_KEY = "841687864341949";
-    private final String API_SECRET = "stSmuAFwCAjzt27OKiWh9zSUqbc";
+    @Value("${cloudinary.name}")
+	private String CLOUD_NAME;
+
+    @Value("${cloudinary.api-key}")
+    private String API_KEY;
+
+    @Value("${cloudinary.api-secret}")
+    private String API_SECRET;
     
     @Bean
     public Cloudinary cloudinary(){
