@@ -15,9 +15,9 @@ public interface ProductService {
 
     List<ProductResponse> filterProductByCategoryAndQuery(Long categoryId, String query);
 
-    String updateProduct(Product product);
-
-    String addProduct(Product product);
+    void saveProduct(Product product);
 
     Product findByTitle(String title);
+    
+    Product findById(Long Id);
 }
