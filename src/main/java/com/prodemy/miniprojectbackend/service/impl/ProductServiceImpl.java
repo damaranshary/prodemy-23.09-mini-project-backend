@@ -53,27 +53,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Product product) {
-    	productRepository.save(product);
+    public ProductResponse saveProduct(Product product) {
+        return convertProductToProductResponse(productRepository.save(product));
     }
-    
+
     @Override
-	public Product findById(Long Id) {
-		// TODO Auto-generated method stub
-		return productRepository.getReferenceById(Id);
-	}
+    public Product findById(Long Id) {
+        return productRepository.getReferenceById(Id);
+    }
 
     private ProductResponse convertProductToProductResponse(Product product) {
         String category = categoryRepository.findById(product.getCategoryId()).orElseThrow(RuntimeException::new).getName();
 
-        ProductResponse productResponse = new ProductResponse();
-
-        productResponse.setId(product.getId());
-        productResponse.setTitle(product.getTitle());
-        productResponse.setImage(product.getImage());
-        productResponse.setPrice(product.getPrice());
-        productResponse.setCategory(category);
-
-        return productResponse;
+        return ProductResponse.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .image(product.getImage()).price(product.getPrice())
+                .category(category).build();
     }
 }
