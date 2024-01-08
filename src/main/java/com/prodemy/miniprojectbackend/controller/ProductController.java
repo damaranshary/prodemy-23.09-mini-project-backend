@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
@@ -104,4 +103,25 @@ public class ProductController {
 
         return result;
     }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public WebResponse<String> deleteProduct(@PathVariable Long id) {
+    WebResponse<String> response = new WebResponse<>();
+
+    Product product = productService.findById(id);
+
+    if (product != null) {
+        productService.deleteProductById(id);
+        response.setStatus(0);
+        response.setMessage("Product berhasil dihapus");
+        response.setData("Product with ID " + id + " deleted successfully");
+    } else {
+        response.setStatus(404); // Not Found status code
+        response.setMessage("Product not found");
+        response.setData(null);
+    }
+
+    return response;
+}
+
 }
