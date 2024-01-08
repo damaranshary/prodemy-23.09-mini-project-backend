@@ -71,4 +71,9 @@ public class ProductServiceImpl implements ProductService {
                 .image(product.getImage()).price(product.getPrice())
                 .category(category).build();
     }
+
+    @Override
+    public void deleteProductById(Long id) {
+        productRepository.deleteById(id);
+    }
 }

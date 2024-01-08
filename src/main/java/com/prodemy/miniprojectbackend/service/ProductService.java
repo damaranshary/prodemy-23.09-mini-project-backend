@@ -20,4 +20,6 @@ public interface ProductService {
     Product findByTitle(String title);
     
     Product findById(Long Id);
+
+    void deleteProductById(Long id);
 }
