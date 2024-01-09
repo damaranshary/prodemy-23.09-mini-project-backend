@@ -47,7 +47,7 @@ public class ProductController {
             productResponseList = productService.filterProductByCategoryAndQuery(Long.parseLong(categoryId), query);
         }
 
-        return WebResponse.<List<ProductResponse>>builder().message("Success").status(0).data(productResponseList).build();
+        return WebResponse.<List<ProductResponse>>builder().message("Sukses").status(0).data(productResponseList).build();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,11 +122,11 @@ public class ProductController {
         if (product != null) {
             productService.deleteProductById(id);
             response.setStatus(0);
-            response.setMessage("Product berhasil dihapus");
-            response.setData("Product with ID " + id + " deleted successfully");
+            response.setMessage("Produk berhasil dihapus");
+            response.setData("Produk dengan ID " + id + " berhasil dihapus");
         } else {
             response.setStatus(404); // Not Found status code
-            response.setMessage("Produck tidak ditemukan");
+            response.setMessage("Produk tidak ditemukan");
             response.setData(null);
         }
 
