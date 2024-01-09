@@ -28,17 +28,26 @@ public class ProductController {
                                                              @RequestParam(required = false, name = "category") String categoryId) {
         List<ProductResponse> productResponseList;
 
-        if (query == null && categoryId == null) {
+
+        if (query == null && (categoryId == null || categoryId.equals(""))) {
             productResponseList = productService.getAllProduct();
-        } else if (categoryId == null) {
+        } else if (categoryId == null || categoryId.equals("")) {
             productResponseList = productService.searchProductByQuery(query);
         } else if (query == null) {
+            if (!categoryId.matches("\\d+")) {
+                return WebResponse.<List<ProductResponse>>builder().message("Kategori tidak ditemukan").status(102).data(null).build();
+            }
+
             productResponseList = productService.filterProductByCategory(Long.parseLong(categoryId));
         } else {
+            if (!categoryId.matches("\\d+")) {
+                return WebResponse.<List<ProductResponse>>builder().message("Kategori tidak ditemukan").status(102).data(null).build();
+            }
+
             productResponseList = productService.filterProductByCategoryAndQuery(Long.parseLong(categoryId), query);
         }
 
-        return WebResponse.<List<ProductResponse>>builder().message("Success").status(200).data(productResponseList).build();
+        return WebResponse.<List<ProductResponse>>builder().message("Sukses").status(0).data(productResponseList).build();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +71,7 @@ public class ProductController {
                     .build());
 
             result.setStatus(0);
-            result.setMessage("Product berhasil ditambahkan");
+            result.setMessage("Produk berhasil ditambahkan");
             result.setData(response);
         }
 
@@ -97,7 +106,7 @@ public class ProductController {
                     .build());
 
             result.setStatus(0);
-            result.setMessage("Product berhasil diupdate");
+            result.setMessage("Produk berhasil diupdate");
             result.setData(response);
         }
 
@@ -106,22 +115,22 @@ public class ProductController {
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public WebResponse<String> deleteProduct(@PathVariable Long id) {
-    WebResponse<String> response = new WebResponse<>();
+        WebResponse<String> response = new WebResponse<>();
 
-    Product product = productService.findById(id);
+        Product product = productService.findById(id);
 
-    if (product != null) {
-        productService.deleteProductById(id);
-        response.setStatus(0);
-        response.setMessage("Product berhasil dihapus");
-        response.setData("Product with ID " + id + " deleted successfully");
-    } else {
-        response.setStatus(404); // Not Found status code
-        response.setMessage("Product not found");
-        response.setData(null);
+        if (product != null) {
+            productService.deleteProductById(id);
+            response.setStatus(0);
+            response.setMessage("Produk berhasil dihapus");
+            response.setData("Produk dengan ID " + id + " berhasil dihapus");
+        } else {
+            response.setStatus(404); // Not Found status code
+            response.setMessage("Produk tidak ditemukan");
+            response.setData(null);
+        }
+
+        return response;
     }
-
-    return response;
-}
 
 }

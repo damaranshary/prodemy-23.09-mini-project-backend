@@ -6,7 +6,9 @@ import com.prodemy.miniprojectbackend.repository.CategoryRepository;
 import com.prodemy.miniprojectbackend.repository.ProductRepository;
 import com.prodemy.miniprojectbackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductResponse convertProductToProductResponse(Product product) {
-        String category = categoryRepository.findById(product.getCategoryId()).orElseThrow(RuntimeException::new).getName();
+        String category = categoryRepository.findById(product.getCategoryId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found")).getName();
 
         return ProductResponse.builder()
                 .id(product.getId())
