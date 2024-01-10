@@ -9,11 +9,7 @@ public interface ProductService {
 
     List<ProductResponse> getAllProduct();
 
-    List<ProductResponse> searchProductByQuery(String query);
-
-    List<ProductResponse> filterProductByCategory(Long categoryId);
-
-    List<ProductResponse> filterProductByCategoryAndQuery(Long categoryId, String query);
+    List<ProductResponse> getProductsWithFilters(Long categoryId, String query, String sortBy);
 
     ProductResponse saveProduct(Product product);
 

@@ -25,26 +25,21 @@ public class ProductController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public WebResponse<List<ProductResponse>> getAllProducts(@RequestParam(required = false, name = "q") String query,
-                                                             @RequestParam(required = false, name = "category") String categoryId) {
+                                                             @RequestParam(required = false, name = "category") String categoryId,
+                                                             @RequestParam(required = false, name = "sortBy") String sortBy) {
         List<ProductResponse> productResponseList;
 
-
-        if (query == null && (categoryId == null || categoryId.equals(""))) {
+        // if all the parameters are null, we just fetch all products
+        if (query == null && categoryId == null && sortBy == null) {
             productResponseList = productService.getAllProduct();
-        } else if (categoryId == null || categoryId.equals("")) {
-            productResponseList = productService.searchProductByQuery(query);
-        } else if (query == null) {
-            if (!categoryId.matches("\\d+")) {
-                return WebResponse.<List<ProductResponse>>builder().message("Kategori tidak ditemukan").status(102).data(null).build();
-            }
-
-            productResponseList = productService.filterProductByCategory(Long.parseLong(categoryId));
         } else {
-            if (!categoryId.matches("\\d+")) {
+            // check if category numbers (Long) or not
+            if (categoryId != null && !categoryId.matches("\\d+")) {
                 return WebResponse.<List<ProductResponse>>builder().message("Kategori tidak ditemukan").status(102).data(null).build();
             }
 
-            productResponseList = productService.filterProductByCategoryAndQuery(Long.parseLong(categoryId), query);
+            // there is a ternary operator because we need to change the categoryId into Long value
+            productResponseList = productService.getProductsWithFilters(categoryId == null ? null : Long.parseLong(categoryId), query, sortBy);
         }
 
         return WebResponse.<List<ProductResponse>>builder().message("Sukses").status(0).data(productResponseList).build();
