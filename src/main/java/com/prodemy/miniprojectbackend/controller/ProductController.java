@@ -68,6 +68,9 @@ public class ProductController {
             result.setStatus(0);
             result.setMessage("Produk berhasil ditambahkan");
             result.setData(response);
+        } else {
+            result.setStatus(102);
+            result.setMessage("Produk dengan nama yang sama sudah terdaftar");
         }
 
         return result;
@@ -103,6 +106,9 @@ public class ProductController {
             result.setStatus(0);
             result.setMessage("Produk berhasil diupdate");
             result.setData(response);
+        } else {
+            result.setStatus(102);
+            result.setMessage("Produk dengan ID " + id + " tidak ditemukan");
         }
 
         return result;

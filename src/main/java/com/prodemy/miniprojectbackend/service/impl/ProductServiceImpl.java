@@ -106,7 +106,6 @@ public class ProductServiceImpl implements ProductService {
                 this::convertProductToProductResponse).collect(Collectors.toList());
     }
 
-
     @Override
     public Product findByTitle(String title) {
         return productRepository.findByTitle(title);
